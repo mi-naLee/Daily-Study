@@ -7,6 +7,21 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName"
+		value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="jdbcUrl"
+		value="jdbc:oracle:thin:@localhost:1521:XE"></property>
+		<property name="username" value="hr"></property>
+		<property name="password" value="hr"></property>
+	</bean>
+	
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
+	destroy-method="close">
+		<constructor-arg ref="hikariConfig"/>
+	</bean>
+	
 	<!-- context:component-scan : 해당 패키지를 스캔해서 객체 생성 -->
 	<context:component-scan base-package="org.zerock.sample"></context:component-scan>	
+	
 </beans>

@@ -130,6 +130,19 @@
 			<scope>provided</scope>
 		</dependency>
 		
+		<!-- ojdbc -->
+		<dependency>
+			<groupId>com.oracle.ojdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>19.3.0.0</version>
+		</dependency>
+		
+		<!-- HikariCP 추가 (Connection Pool) -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.7.4</version>
+		</dependency>
 	</dependencies>
     <build>
         <plugins>
