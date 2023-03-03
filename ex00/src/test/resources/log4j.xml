@@ -33,9 +33,20 @@
 	</logger>
 
 	<!-- Root Logger -->
+	<!-- Console에 INFO: 내용으로 로그를 보여줌 -->
 	<root>
 		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 	
+	<logger name="jdbc.audit">
+		<level value="warn"/>
+	</logger>
+	
+	<logger name="jdbc.resultest">
+		<level value="warn"/>
+	</logger>
+	<logger name="jdbc.connection">
+		<level value="warn"/>
+	</logger>
 </log4j:configuration>
