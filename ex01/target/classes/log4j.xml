@@ -12,7 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="org.zerock.controller">
-		<level value="info" />
+		<level value="info" /><!-- debug로 바꿔 log 확인 가능 -->
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

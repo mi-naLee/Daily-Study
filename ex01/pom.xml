@@ -80,7 +80,7 @@
 					<artifactId>jmxri</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>runtime</scope>
+			<!-- <scope>runtime</scope> --><!-- 해당 부분을 주석처리해야 annotation error 해결 -->
 		</dependency>
 
 		<!-- @Inject -->
