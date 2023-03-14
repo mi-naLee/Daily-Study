@@ -1,18 +1,24 @@
 package org.zerock.controller;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.SampleDTO;
 import org.zerock.domain.SampleDTOList;
 import org.zerock.domain.TodoDTO;
@@ -90,5 +96,59 @@ public class SampleController {
 		return "ex03";
 	}
 	
+	// =================== Model 객체 ====================
+	// MVC Controller는 Java Beans 규칙에 맞는 객체는 View로 전달하지만
+	// 기본 자료형의 경우 자동으로 전달하지 않는다 --> @ModelAttribute annotation 필요
+	@GetMapping("/ex04")
+	public String ex04(SampleDTO dto, @ModelAttribute("page") int page) {
+		log.info("dto: "+dto);
+		log.info("page: "+page);
+		return "/sample/ex04";
+	}
 	
+	// =================== Rtn Type ====================
+	@GetMapping("/ex05")
+	public void ex05() { // void: 경로 자체가 URL --> servlet-context.xml suffix에 따라 ex05.jsp 이동
+		log.info("/ex05...........");
+	}
+	
+	// String
+	
+	@GetMapping("/ex06") // 객체 타입: json으로 출력
+	public @ResponseBody SampleDTO ex06() {
+		log.info("ex06..........");
+		SampleDTO dto = new SampleDTO();
+		dto.setAge(10);
+		dto.setName("홍길동");
+		return dto;
+	}
+	
+	@GetMapping("/ex07") // ResponseEntity type: 원하는 rtn + HttpHeaders 객체 + HTTP 헤더 msg
+	public ResponseEntity<String> ex07(){
+		log.info("/ex07.........");
+		
+		// {"name": "홍길동"}
+		String msg = "{\"name\": \"홍길동\"}";
+		
+		HttpHeaders header = new HttpHeaders();
+		header.add("Content-Type", "application/json;charset=UTF-8");
+		
+		return new ResponseEntity<>(msg, header, HttpStatus.OK); // json, HttpHeaders 객체, HTTP 200
+	}
+
+	// =================== Rtn Type ====================
+	@GetMapping("/exUpload")
+	public void exUpload() {
+		log.info("exUpload..........");
+	}
+	
+	@PostMapping("/exUploadPost")
+	public void exUploadPost(ArrayList<MultipartFile> files) {
+		files.forEach(file -> {
+			log.info("==========================");
+			log.info("name:"+file.getOriginalFilename());
+			log.info("size:"+file.getSize());
+		});  
+	}
 }
+
