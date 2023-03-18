@@ -27,6 +27,11 @@ public class BoardController {
 		model.addAttribute("list",service.getList());
 	}
 	
+	@GetMapping("/register")
+	public void register() {
+		// 입력 화면(board/register)으로 이동시키는 역할 --> register.jsp 후 post로 입력 이루어지고 list.jsp rtn
+	}
+	
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		// RedirectAttributes: 작업 후 이동하기 위해 사용.
@@ -36,9 +41,9 @@ public class BoardController {
 		return "redirect:/board/list"; // 스프링 MVC가 내부적으로 response.sendRedirect() 처리
 	}
 	
-	@GetMapping("/get")
+	@GetMapping({"/get","/modify"})
 	public void get(@RequestParam("bno") Long bno, Model model) {
-		log.info("===/get===");
+		log.info("===/get or /modify ===");
 		model.addAttribute("board", service.get(bno)); // 해당 게시물 전달
 	}
 	
