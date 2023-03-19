@@ -1,5 +1,7 @@
 package org.zerock.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +44,15 @@ public class BoardControllerTests {
 				.getModelMap());
 	}
 	
+	@Test
+	public void testListPaging() throws Exception{
+		log.info(mockMvc.perform(
+				MockMvcRequestBuilders.get("/board/list")
+				.param("pageNum", "2")
+				.param("amount", "10")
+				).andReturn().getModelAndView().getModelMap());
+	}
+	
 	// register test
 	/*@Test
 	public void testRegister() throws Exception{
@@ -75,11 +86,12 @@ public class BoardControllerTests {
 		log.info(resultPage);
 	}*/
 	
-	@Test
+	// remove test
+	/*@Test
 	public void testRemove() throws Exception{
 		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
 				.param("bno", "141") // mockMvc 파라미터 전달은 문자열만 가능
 				).andReturn().getModelAndView().getViewName();
 		log.info(resultPage);
-	}
+	}*/
 }

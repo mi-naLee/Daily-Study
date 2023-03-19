@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 import org.zerock.service.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -21,12 +22,19 @@ public class BoardController {
 
 	private BoardService service; // controller는 service에 의존적이므로 생성자 자동 주입
 	
-	@GetMapping("/list")
+	/*@GetMapping("/list")
 	public void list(Model model) {
 		log.info("====list===");
 		model.addAttribute("list",service.getList());
-	}
+	}*/
 	
+	// add Paging
+	@GetMapping("/list")
+	public void list(Criteria cri, Model model) {
+		log.info("====list===");
+		model.addAttribute("list",service.getList(cri));
+	}
+
 	@GetMapping("/register")
 	public void register() {
 		// 입력 화면(board/register)으로 이동시키는 역할 --> register.jsp 후 post로 입력 이루어지고 list.jsp rtn

@@ -1,11 +1,14 @@
 package org.zerock.mapper;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -49,12 +52,12 @@ public class BoardMapperTests {
 		log.info(board);
 	}*/
 	
-	@Test // 현재 존재하는 bno 값을 호출
+	/*@Test // 현재 존재하는 bno 값을 호출
 	public void testRead() {
 		BoardVO board = mapper.read(182L);
 		
 		log.info(board);
-	}
+	}*/
 	
 	// delete: 몇 개가 수정되었는 지 int rtn
 	/*@Test
@@ -62,7 +65,7 @@ public class BoardMapperTests {
 		log.info("DELETE COUNT: "+mapper.delete(161L));
 	}*/
 	
-	@Test
+	/*@Test
 	public void testUpdate() {
 		BoardVO board = new BoardVO();
 		
@@ -73,6 +76,19 @@ public class BoardMapperTests {
 		
 		int count = mapper.update(board);
 		log.info("UPDATE COUNT: "+count);
+	}*/
+	
+	@Test
+	public void testPaging() {
+		Criteria cri = new Criteria();
+		
+		// 10개씩 2페이지
+		cri.setPageNum(1);
+		cri.setAmount(10);
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		list.forEach(board -> log.info(board.getBno()));
 	}
 	
 }

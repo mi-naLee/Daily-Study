@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 
 public interface BoardMapper {
 
 	// @Select("select * from tbl_board where bno > 0")// where 조건을 줘서 PK를 이용하도록 유도 --> XML 사용
 	public List<BoardVO> getList();
+	
+	public List<BoardVO> getListWithPaging(Criteria cri);
 	
 	public void insert(BoardVO board);
 	
