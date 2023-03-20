@@ -18,7 +18,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @RequestMapping("/board/*") // 해당 URL의 처리는 이곳에서 실행
 @AllArgsConstructor
-public class BoardController {
+public class BoardController { 
 
 	private BoardService service; // controller는 service에 의존적이므로 생성자 자동 주입
 	

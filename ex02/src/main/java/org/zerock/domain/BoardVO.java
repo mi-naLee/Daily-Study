@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data // getter/setter, toString() 자동 생성
-public class BoardVO {
+public class BoardVO { // test 중
 	
 	private Long bno;
 	private String title;
