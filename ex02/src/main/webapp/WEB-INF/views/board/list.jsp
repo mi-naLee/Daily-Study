@@ -36,8 +36,10 @@
                         			<tr>
                         				<td><c:out value="${board.bno }"/></td>
                         				<!-- 제목을 클릭했을 때 해당 게시물로 이동(새창 이동의 경우 target 속성 필요 -->
-                        				<td><a href='/board/get?bno=<c:out value="${board.bno }"/>'>
-                        				<c:out value="${board.title }"/></a></td>
+                        				<td>
+                        					<a class='move' href='<c:out value="${board.bno }"/>'>
+                        					<c:out value="${board.title }"/></a>
+                        				</td>
                         				<td><c:out value="${board.writer }"/></td>
                         				<td><fmt:formatDate pattern="yyyy-MM-dd" 
                         				value="${board.regdate }"/></td>
@@ -46,6 +48,31 @@
 									</tr>
                         		</c:forEach>
                         	</table>
+                        	
+                        	<!-- ===== Paging 처리 ===== -->
+                        	<div class='pull-right'>
+                        		<ul class="pagination">
+                        			<c:if test="${pageMaker.prev }">
+                        				<li class="paginate_button previous">
+                        					<a href="${pageMaker.startPage -1 }">Previous</a></li>
+                        			</c:if>
+                        			
+                        			<c:forEach var="num" begin="${pageMaker.startPage }"
+                        			end="${pageMaker.endPage}">
+                        				<li class="paginate_button ${pageMaker.cri.pageNum == num ? "active":"" }">
+                        					<a href="${num }">${num }</a></li>
+                        			</c:forEach>
+                        			
+                        			<c:if test="${pageMaker.next }">
+                        				<li class="paginate_button next">
+                        					<a href="${pageMaker.endPage +1 }">Next</a></li>
+                        			</c:if>
+                        		</ul>
+                        	</div>
+                        	<form id='actionForm' action="/board/list" method="get">
+                        		<input type='hidden' name='pageNum' value="${pageMaker.cri.pageNum }">
+                        		<input type='hidden' name='amount' value="${pageMaker.cri.amount }">
+                        	</form>
                         	
                         	<!-- ===== Modal 추가 ===== -->
                         	<!-- Modal -->
@@ -104,6 +131,28 @@
    			
    			$("#regBtn").on("click",function(){
    				self.location = "/board/register"; // 목록 페이지 상단 register btn 클릭하면 등록 화면 이동
+   			});
+   			
+   			var actionForm = $("#actionForm");
+   			
+   			// 이전/다음 버튼 클릭 event
+   			$(".paginate_button a").on("click",function(e){
+   				e.preventDefault(); // a 태그를 클릭했을 때 이동을 막음
+   				
+   				console.log('click');
+   				
+   				// pageNum 값을 href 속성값으로 변경
+   				actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+   				actionForm.submit(); // 이동
+   			});
+   			
+   			// 게시글의 제목을 클릭했을 때 pageNum과 amount 파라미터 추가 전달
+   			$(".move").on("click",function(e){
+   				e.preventDefault();
+   				actionForm.append("<input type='hidden' name='bno' value='"+
+   	   					$(this).attr("href")+"'>");
+   				actionForm.attr("action","/board/get");
+   				actionForm.submit();
    			})
    		});
    </script>
