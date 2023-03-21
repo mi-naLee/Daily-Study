@@ -23,4 +23,6 @@ public interface BoardMapper {
 	public int delete(Long bno);
 	
 	public int update(BoardVO board);
+	
+	public int getTotalCount(Criteria cri); // 전체 데이터의 개수 세기
 }

@@ -19,4 +19,6 @@ public interface BoardService {
 	
 	// add Paging
 	public List<BoardVO> getList(Criteria cri);
+	
+	public int getTotal(Criteria cri); // 게시물의 전체 개수
 }

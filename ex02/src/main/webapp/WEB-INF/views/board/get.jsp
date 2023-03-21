@@ -36,9 +36,12 @@
 				<button data-oper='list' class="btn btn-info">List</button>
 				<form id='operForm' action="/board/modify" method="get">
 					<input type='hidden' id='bno' name='bno' value='<c:out value="${board.bno }"/>'>
-					<!-- modify 화면에서 다시 list로 돌아갈 때 페이지 번호 유지하기 -->
+					<!-- 조회 화면에서 다시 list로 돌아갈 때 페이지 번호 유지하기 -->
 					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
 					<input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
+					<!-- 조회 화면에서 다시 list로 돌아갈 때 검색 조건 유지하기 -->
+					<input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>
+					<input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
 				</form>
 			</div><!-- end panel-body -->
 		</div><!-- end panel -->

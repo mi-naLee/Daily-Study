@@ -35,7 +35,13 @@ public class BoardController {
 	public void list(Criteria cri, Model model) {
 		log.info("====list: "+cri);
 		model.addAttribute("list",service.getList(cri));
-		model.addAttribute("pageMaker", new PageDTO(cri, 123));
+		//model.addAttribute("pageMaker", new PageDTO(cri, 123));
+		
+		int total = service.getTotal(cri);
+		
+		log.info("===total: "+total);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	}
 
 	@GetMapping("/register")
@@ -60,20 +66,48 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify") // 수정은 get으로 접근하지만 실제로 post 처리
-	public String modify(BoardVO board, RedirectAttributes rttr) {
+	/*public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri,
+			RedirectAttributes rttr) {
 		log.info("===modify: "+board);
 		if(service.modify(board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
+		
+		rttr.addAttribute("pageNum", cri.getPageNum()); // 현재 페이지(게시판 페이지) 
+		rttr.addAttribute("amount", cri.getAmount()); // 현제 페이지의 데이터(게시글 수)
+		rttr.addAttribute("type", cri.getType()); // 검색 조건의 타입(T/C/W)
+		rttr.addAttribute("keyword", cri.getKeyword()); // 검색 조건의 키워드
 		return "redirect:/board/list";
+	}*/ //--> Criteria에서 UriComponentsBuiler를 사용하지 않았을 경우
+	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
+		log.info("===modify: "+board);
+		if(service.modify(board)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		
+		return "redirect:/board/list" + cri.getListLink(); // rttr.addAttribute를 작성하지 않아도 된다.
 	}
 	
 	@PostMapping("/remove")
-	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
+	/*public String remove(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri,
+			RedirectAttributes rttr) {
 		log.info("===remove: "+bno);
 		if(service.remove(bno)) {
 			rttr.addFlashAttribute("result","success");
 		}
+		
+		rttr.addAttribute("pageNum", cri.getPageNum()); // 현재 페이지(게시판 페이지) 
+		rttr.addAttribute("amount", cri.getAmount()); // 현제 페이지의 데이터(게시글 수)
+		rttr.addAttribute("type", cri.getType()); // 검색 조건의 타입(T/C/W)
+		rttr.addAttribute("keyword", cri.getKeyword()); // 검색 조건의 키워드
 		return "redirect:/board/list";
+	}*/ //--> Criteria에서 UriComponentsBuiler를 사용하지 않았을 경우
+	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
+		log.info("===remove: "+bno);
+		if(service.remove(bno)) {
+			rttr.addFlashAttribute("result","success");
+		}
+		
+		return "redirect:/board/list" + cri.getListLink();
 	}
 }

@@ -16,6 +16,15 @@
 			<div class="panel-heading">Board Read Page</div>
 			<div class="panel-body">
 				<form role="form" action="/board/modify" method="post">
+				
+					<!-- ===== 페이지 이동시 현재 페이지 + 현재 페이지의 게시글을 가지고 이동 ===== -->
+					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
+					<input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
+					
+					<!-- ===== 페이지 이동시 검색 조건 함께 이동 ===== -->
+					<input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
+					<input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>
+				
 					<div class="form-group">
 						<label>Bno</label><input class="form-control" name='bno'
 						value='<c:out value="${board.bno }"/>' readonly="readonly">
@@ -67,7 +76,18 @@
 				formObj.attr("action", "/board/remove");
 			}else if(operation === 'list'){ // 수정 페이지에서 리스트 버튼 클릭시 get method로 목록 페이지 이동
 				formObj.attr("action", "/board/list").attr("method","get"); 
-				formObj.empty();
+				// form 태그의 정보를 잠시 복사(clone)
+				var pageNumTag = $("input[name='pageNum']").clone();
+				var amountTag = $("input[name='amount']").clone();
+				var keywordTag = $("input[name='keyword']").clone();
+				var typeTag = $("input[name='type']").clone();
+			
+				formObj.empty(); // form 태그의 모든 내용 삭제
+				// --> 모든 내용 삭제 후 pageNum과 amount를 다시 추가해 리스트 호출
+				formObj.append(pageNumTag);
+				formObj.append(amountTag);
+				formObj.append(keywordTag);
+				formObj.append(typeTag);
 			}
 			formObj.submit();
 		});

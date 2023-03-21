@@ -91,4 +91,14 @@ public class BoardMapperTests {
 		list.forEach(board -> log.info(board.getBno()));
 	}
 	
+	@Test
+	public void testSearch() {
+		Criteria cri = new Criteria();
+		cri.setKeyword("제목");
+		cri.setType("TC");
+		
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		log.info("★★★★★★★★★★★★★★★★");
+		list.forEach(board -> log.info(board));
+	}
 }
